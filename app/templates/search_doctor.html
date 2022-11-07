@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div id="wrapper">
+        <div class="row">
+            <div class="col-md-4 col-lg-4"></div>
+            <div class="col-md-4 col-lg-4">
+                <form id="doctor_search" class="doctor_search" method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <center>
+                        <button type="submit" class="btn primary-btn-small">
+                    Search
+                </button>
+                    </center>
+            </form>
+            </div>
+        </div>
+        {% if doctors %}
+            <div class="row" style="margin-top:2%;">
+                <br><br>
+                <div class="col-md-2 col-lg-2"></div>
+                <div class="col-md-8 col-lg-8">
+                    <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Doctor Name</th>
+                        <th>Category</th>
+                        <th>#</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for d in doctors %}
+                        <tr>
+                            <td>{{d.first_name}},{{d.last_name}}</td>
+                            <td>{{d.category}}</td>
+                            <td><a class="btn primary-btn-medium" href="/book/appointment/{{d.pk}}/">See Details</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

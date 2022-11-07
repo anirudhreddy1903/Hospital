@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<head>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+    $('#donations').DataTable();
+});
+    </script>
+</head>
+    <div id="wrapper">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <center>
+                    <h1 class="page-header">
+                        {{patient.first_name}} Treatment History
+                    </h1>
+                </center>
+<!--                <p><a href="#" style="float:right;">Add Treatment</a></p>-->
+                <br>
+                {% if treatments %}
+                    <table class="table" id="donations">
+                    <thead>
+                        <tr>
+                            <th>Doctor Name</th>
+                            <th>Category</th>
+                            <th>Treatment</th>
+<!--                            <th>Notes</th>-->
+                            <th>Treatment Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for t in treatments %}
+                        <tr>
+                            <td>{{t.doctor.first_name}},{{t.doctor.last_name}}</td>
+                            <td>{{t.category}}</td>
+                            <td>{{t.treatment_notes}}</td>
+<!--                            <td>{{t.notes}}</td>-->
+                            <td>{{t.treatment_date}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {% else %}
+                    <p> No treatment found, please add new treatment</p>
+                <br>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

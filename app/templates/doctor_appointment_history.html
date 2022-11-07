@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+<head>
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+    $('#donations').DataTable();
+});
+    </script>
+</head>
+    <div id="wrapper">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <center>
+                    <h1 class="page-header">
+                        Doctor Appointment History
+                    </h1>
+                </center>
+<!--                <p><a href="#" style="float:right;">Add Appointment</a></p>-->
+                <br>
+                {% if appointments %}
+                    <table class="table" id="donations">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Category</th>
+                            <th>Booking Date</th>
+                            <th>Booking Time</th>
+                            <th>Is Booking Confirmed</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for a in appointments %}
+                        <tr>
+                            <td>{{a.doctor.first_name}},{{a.doctor.last_name}}</td>
+                            <td>{{a.category}}</td>
+                            <td>{{a.booking_date}}</td>
+                            <td>{{a.booking_time}}</td>
+                            <td>{{a.is_appointment_confirmed}}</td>
+                            <td>
+                                <a href="/add/treatment/{{a.doctor.pk}}/{{a.patient.pk}}/" style="color:#410DAA !important;">Add Treatment</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                {% else %}
+                <br>
+                <center>
+                    <p> No new appointment found</p>
+                </center>
+
+                <br>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

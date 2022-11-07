@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div id="wrapper">
+    <div class="row">
+        <div class="col-md-5 col-lg-5 col-xs-12">
+                <br><br><br>
+            <img src="{% static 'img/doctor.png' %}" alt="doctors" style="width:100%;height:auto;"/>
+            </div>
+        <div class="col-md-1 col-lg-1"></div>
+        <div class="col-md-6 col-lg-6 col-xs-12">
+            <br><br><br>
+                <h1 class="page-header text-center">Doctor's Login</h1>
+                <form id="doctor-signup" class="doctor-signup">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <center>
+                        <button type="submit" id="doctor-signup-btn" class="btn primary-btn-small">
+                        Login
+                    </button>
+                        <br>
+                        <p style="color:red;">{{error_msg}}</p>
+                    </center>
+
+                </form>
+            </div>
+    </div>
+</div>
+{% endblock %}

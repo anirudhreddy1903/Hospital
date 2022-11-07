@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <base href="">
+    <meta charset="utf-8"/>
+    <meta name="description" content="Updates and statistics"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link href="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/metronic/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/style.bundle.css?v=7.0.3" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/metronic/css/plugins.bundle.js?v=7.0.3"></script>
+    <style>
+        body{
+            font-family: Arial !important;
+            background-color:#FFFFFF;
+        }
+        .page-header{
+            color:#410DAA !important;
+        }
+        #top-logo{
+            width:50% !important;
+            height50% !important;
+        }
+
+        @media only screen and (min-width: 1000px) {
+            .container{
+            margin-left:40px;
+            margin-right:40px;
+        }
+        .navbar{
+            margin-left:40px;
+            margin-right:40px;
+        }
+        }
+
+        .jama-primary-btn{
+		      background-color: #410DAA !important;
+              color: white !important;
+              width: 180px !important;
+	    }
+
+    </style>
+</head>
+<body>
+<div id="navbar-div" style="background-color:#ECEFF1 !important;">
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'img/hospital.png' %}" alt="jamawealth"
+                     class="img-responsive" id="top-logo" style="width:8% !important;height:8% !important;">
+            </a>
+        </div>
+        {% if request.user.is_active %}
+            {% if request.user.is_patient %}
+                <ul class="nav navbar-nav">
+                <li class="active"><a href="{% url 'doctor_appointment' %}" style="color:#000000;align-items: center;">
+                    <span class="primary-color" style="font-weight:700;color:#410DAA;">See Appointments</span>
+                </a></li>
+            </ul>
+            {% else %}
+
+            {% endif %}
+        {% else %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="#" style="color:#000000;align-items: center;">
+                    Any Queries? <span class="primary-color" style="font-weight:700;color:#410DAA;"> Get Help </span>
+                </a></li>
+            </ul>
+
+        {% endif %}
+    </div>
+</nav>
+</div>
+    <div class="container">
+        <br><br>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
