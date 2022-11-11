@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from app.views import AddTreatmentForPatient, DoctorAppointments, TreatmentHistory, PatientAppointments, \
+from app.views import UserMiniAddressViewJUX,hospital_home,AddTreatmentForPatient, DoctorAppointments, TreatmentHistory, PatientAppointments, \
     DoctorRegistration, PatientHome,DoctorLogin, PatientRegistration, \
     PatientLogin, OrganDonationView, GetAvailableOrgans, DoctorSearch, ShowDoctorAppointments, BookDoctorAppointment,DoctorHome
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',project2_home,name='project2'),
+    path('',hospital_home,name='project2'),
     path('doctor/signup/', DoctorRegistration, name='doctor_signup'),
     path('doctor/login/', DoctorLogin, name='doctor_login'),
     path('patient/signup/', PatientRegistration, name='patient_signup'),
@@ -23,4 +23,5 @@ urlpatterns = [
     path('add/treatment/<int:doctor_id>/<int:patient_id>/', AddTreatmentForPatient, name='add_treatment'),
     path('doctor/home/',DoctorHome,name='doctor_home'),
     path('patient/home/',PatientHome,name='patient_home'),
+    path('update/profile/',UserMiniAddressViewJUX.as_view(),name='update_profile_details'),
 ]

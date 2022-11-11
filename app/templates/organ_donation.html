@@ -5,7 +5,7 @@
     <div id="wrapper">
         <div class="row">
             <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                <form id="organ_donation_form" class="organ_donation_form">
+                <form id="organ_donation_form" class="organ_donation_form" method="post" action="/organ/donation/">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-4 col-lg-4">
@@ -16,6 +16,9 @@
                         </div>
                         <div class="col-md-4 col-lg-4">
                             {{form.email|as_crispy_field}}
+                        </div>
+                        <div class="col-md-4 col-lg-4">
+                            {{form.mobile_number|as_crispy_field}}
                         </div>
                         <div class="col-md-4 col-lg-4">
                             {{form.organ_type|as_crispy_field}}

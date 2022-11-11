@@ -25,7 +25,7 @@
                         <td>{{a.category}}</td>
                         <td>{{a.booking_date}},{{a.booking_time}}</td>
                         <td>
-                            <a href="">Book Appointment</a>
+                            <a href="/book/appointment/{{a.doctor.pk}}/{{a.pk}}/">Book Appointment</a>
                         </td>
                     </tr>
                     {% endfor %}

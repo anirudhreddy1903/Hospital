@@ -35,7 +35,6 @@ class HospitalActor(AbstractUser):
     id = models.AutoField(primary_key=True)
     last_name = models.CharField(max_length=60,null=True,blank=True)
     first_name = models.CharField(max_length=60,null=True,blank=True)
-    email = models.CharField(max_length=100,null=True,blank=True)
     mobile_number = models.CharField(max_length=12,null=True,blank=True)
     gender = models.CharField(max_length=1,choices=PERSON_CHOICES,null=True,blank=True)
     address1 = models.CharField(max_length=30, null=True, blank=True)

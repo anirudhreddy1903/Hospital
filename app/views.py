@@ -2,14 +2,19 @@ import datetime
 from .forms import AdditionalDetailsForm, OrganDonationForm, PatientLoginForm, PatientRegistrationForm, DoctorLoginForm, \
     DoctorRegistrationForm, DoctorSearchForm, AddTreatmentForm
 
+from django.contrib import messages
+
 from .models import HospitalActor, OrganDonation, Treatment, Appointment
 from django.shortcuts import render, redirect, reverse
+
+from allauth.account.utils import perform_login, complete_signup
+from allauth.account import app_settings as allauth_settings
 
 from django.views.generic import DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-def project2_home(request):
+def hospital_home(request):
     return render(request,'project2_home.html')
 
 def DoctorRegistration(request):
@@ -26,12 +31,14 @@ def DoctorRegistration(request):
             password = form.cleaned_data["password"]
             if HospitalActor.objects.filter(email=email).exists():
                 msg = "Email address is already exists."
-            user = HospitalActor.objects.create(last_name=last_name, first_name=first_name, category=category)
-            user.set_password = password
-            user.mobile_number = mobile_number
-            user.save()
-            print(" user created successfully")
-            return redirect('doctor_home')
+            else:
+                user = HospitalActor.objects.create(username=mobile_number,last_name=last_name, first_name=first_name, category=category)
+                user.set_password = password
+                user.mobile_number = mobile_number
+                user.save()
+                perform_login(request, user, allauth_settings.EMAIL_VERIFICATION, signup=False,
+                              redirect_url=None, signal_kwargs=None)
+                return redirect('doctor_home')
     else:
         msg = ''
         form = DoctorRegistrationForm()
@@ -52,6 +59,8 @@ def DoctorLogin(request):
             user = HospitalActor.objects.filter(email=email).first()
             if not user.check_password(password):
                 error_msg = "Password is incorrect."
+            perform_login(request, user, allauth_settings.EMAIL_VERIFICATION, signup=False,
+                          redirect_url=None, signal_kwargs=None)
             return redirect('doctor_home')
     else:
         form = DoctorLoginForm()
@@ -74,19 +83,21 @@ def PatientRegistration(request):
         form = PatientRegistrationForm(request.POST)
         if form.is_valid():
             last_name = form.cleaned_data["last_name"]
-            category = form.cleaned_data["category"]
             first_name = form.cleaned_data["first_name"]
             email = form.cleaned_data["email"]
             mobile_number = form.cleaned_data["mobile_number"]
             password = form.cleaned_data["password"]
             if HospitalActor.objects.filter(email=email).exists():
                 msg = "Email address is already exists."
-            user = HospitalActor.objects.create(last_name=last_name, first_name=first_name, category=category)
-            user.set_password = password
-            user.mobile_number = mobile_number
-            user.save()
-            print(" user created successfully")
-            return redirect('doctor_home')
+            else:
+                user = HospitalActor.objects.create(username=email,last_name=last_name, first_name=first_name)
+                user.set_password = password
+                user.mobile_number = mobile_number
+                user.email = email
+                user.save()
+                perform_login(request, user, allauth_settings.EMAIL_VERIFICATION, signup=False,
+                              redirect_url=None, signal_kwargs=None)
+                return redirect('patient_home')
     else:
         msg = ''
         form = PatientRegistrationForm()
@@ -107,7 +118,10 @@ def PatientLogin(request):
             user = HospitalActor.objects.filter(email=email).first()
             if not user.check_password(password):
                 error_msg = "Password is incorrect."
-            return redirect('patient_home')
+            else:
+                perform_login(request, user, allauth_settings.EMAIL_VERIFICATION, signup=False,
+                              redirect_url=None, signal_kwargs=None)
+                return redirect('patient_home')
     else:
         form = DoctorLoginForm()
         return render(request, 'patient_login.html', {'form': form, 'error_msg': error_msg})
@@ -119,7 +133,7 @@ class UserMiniAddressViewJUX(LoginRequiredMixin, UpdateView):
     template_name = 'additional_details.html'
 
     def get_success_url(self):
-        return reverse('complete_profile')
+        return reverse('patient_home')
 
     def get_object(self):
         return HospitalActor.objects.get(username=self.request.user.username)
@@ -210,16 +224,16 @@ def BookDoctorAppointment(request, doctor_id, apt_id):
         return redirect('patient_login')
     doctor = HospitalActor.objects.filter(pk=doctor_id).first()
     if not doctor:
-        # messages.add_message(request,messages.INFO,"No doctor found with " + str(doctor_id))
+        messages.add_message(request,messages.INFO,"No doctor found with " + str(doctor_id))
         return redirect('search_doctors')
     appointment = Appointment.objects.filter(pk=apt_id).first()
     if not appointment:
-        # messages.add_message(request, messages.INFO, "No appointment found for the doctor id " + str(doctor_id))
+        messages.add_message(request, messages.INFO, "No appointment found for the doctor id " + str(doctor_id))
         return redirect('search_doctors')
     appointment.is_appointment_confirmed = True
     appointment.patient = request.user
     appointment.save()
-    # messages.add_message(request, messages.SUCCESS, "Appointment booked successfully"
+    messages.add_message(request, messages.SUCCESS, "Appointment booked successfully")
     return redirect('patient_appointment')
 
 
@@ -227,7 +241,9 @@ def OrganDonationView(request):
     msg = ''
     if request.method == "POST":
         form = OrganDonationForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
+            print("coming to here")
             last_name = form.cleaned_data["last_name"]
             first_name = form.cleaned_data["first_name"]
             email = form.cleaned_data["email"]
@@ -255,6 +271,7 @@ def OrganDonationView(request):
             msg = "Your ogran donation " + str(
                 organ_type) + " saved successfully." if oragn_flag else "You already donated the organ " + str(
                 organ_type)
+            return redirect('avl_organs')
 
     else:
         form = OrganDonationForm()

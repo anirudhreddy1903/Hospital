@@ -6,39 +6,84 @@
     <meta charset="utf-8"/>
     <meta name="description" content="Updates and statistics"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link href="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/metronic/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
-    <link href="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/style.bundle.css?v=7.0.3" rel="stylesheet" type="text/css" />
-    <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
-    <script src="https://jamaappprod.s3.ap-south-1.amazonaws.com/static/metronic/css/plugins.bundle.js?v=7.0.3"></script>
+    <link href="{% static 'css/root.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/root1.css' %}" rel="stylesheet" type="text/css" />
+    <script src="{% static 'css/root.js' %}"></script>
     <style>
         body{
-            font-family: Arial !important;
-            background-color:#FFFFFF;
-        }
-        .page-header{
-            color:#410DAA !important;
-        }
-        #top-logo{
-            width:50% !important;
-            height50% !important;
-        }
+    background:white !important;
+}
+h4.page-header{
+    font-size:20px;
+    font-style: normal;
+    font-weight: bold;
+    line-height: 23px;
+    text-transform: capitalize;
+    color: #000000;
+}
+p.sub-page-header{
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 21px;
+        color: #222225;
+   }
+p.page-header-help{
+    color: #000000;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 13px;
+    font-size:12px !important;
+    margin-top:3% !important;
+}
+p.page-text{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 17px;
+    color: #121212;
+}
 
-        @media only screen and (min-width: 1000px) {
-            .container{
-            margin-left:40px;
-            margin-right:40px;
-        }
-        .navbar{
-            margin-left:40px;
-            margin-right:40px;
-        }
-        }
+.primary-btn-small{
+    background-color:black !important;
+    color:white !important;
+    width:130px !important;
+}
+.primary-btn-medium{
+    background-color:black !important;
+    color:white !important;
+    width:250px !important;
+}
+.form-control{
+    margin-bottom:2% !important;
+}
+.spinner{
+    color:#410DAA !important;
+}
+.primary-color{
+    color:#410DAA !important;
+}
+.form-control{
+    background-color:white !important;
+    border-color:black !important;
+}
+.form-control:focus{
+    background-color:#ffffff !important;
+    border-color:black !important;
+}
+.mobile-logo{
+    width:60% !important;
+}
+.help-block{
+    font-weight:400 !important;
+    font-size: 0.9rem !important;
+    font-size:11px;
+    color:#6C6D72 !important;
+}
 
-        .jama-primary-btn{
-		      background-color: #410DAA !important;
-              color: white !important;
-              width: 180px !important;
-	    }
+.control-label {
+   font-weight: 600 !important;
+}
+
 
     </style>
 </head>
@@ -65,7 +110,7 @@
         {% else %}
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#" style="color:#000000;align-items: center;">
-                    Any Queries? <span class="primary-color" style="font-weight:700;color:#410DAA;"> Get Help </span>
+
                 </a></li>
             </ul>
 
