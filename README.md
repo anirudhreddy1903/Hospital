@@ -1,2 +1,2 @@
-# Hospital
+# Hospital Management System
  
